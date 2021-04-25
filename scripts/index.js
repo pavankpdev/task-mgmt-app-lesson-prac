@@ -1,32 +1,6 @@
 const state = {
   taskList: [],
-  newTask: {
-    title: "",
-    url: "",
-    description: "",
-    type: "",
-  },
 };
-
-const text = [
-  {
-    id: `${Date.now()}d`,
-    title: "Learn DevOps Now",
-    url:
-      "https://images.unsplash.com/photo-1572214350916-571eac7bfced?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=755&q=80",
-    description:
-      "We can grab an element by ID with the getElementById() method of the document object. In order to be accessed by ID, the HTML element must have an id attribute. We have a div element with an ID of demo . In the Console, let's get the element and assign it to the demoId variable.20-Nov-2017",
-    type: "Study",
-  },
-  {
-    id: `${Date.now()}j`,
-    title: "Learn JavaScript Now",
-    url: "",
-    description:
-      "We can grab an element by ID with the getElementById() method of the document object. In order to be accessed by ID, the HTML element must have an id attribute. We have a div element with an ID of demo . In the Console, let's get the element and assign it to the demoId variable.20-Nov-2017",
-    type: "Study",
-  },
-];
 
 const taskContents = document.querySelector(".task__contents");
 
@@ -75,8 +49,14 @@ const htmlTaskContent = ({
 </div>
 </div>`;
 
-const dddd = () => {
-  text.map((cardData) => {
+const updateLocalStorage = () => {
+  localStorage.setItem("tasky", JSON.stringify({ tasks: state.taskList }));
+};
+
+const loadInitialData = () => {
+  const localStorageCopy = JSON.parse(localStorage.tasky);
+  if (localStorageCopy) state.taskList = localStorageCopy.tasks;
+  state.taskList.map((cardData) => {
     taskContents.insertAdjacentHTML("beforeend", htmlTaskContent(cardData));
   });
 };
@@ -89,6 +69,9 @@ const handlesubmit = (e) => {
     type: document.getElementById("Tags").value,
   };
 
-  text.push(input);
+  input.id = `${Date.now()}`;
+
   taskContents.insertAdjacentHTML("beforeend", htmlTaskContent(input));
+  state.taskList.push(input);
+  updateLocalStorage();
 };
