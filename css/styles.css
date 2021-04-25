@@ -28,7 +28,10 @@ p {
   background: white;
   z-index: 3;
 }
-
+.place__holder__image {
+  height: 200px;
+  width: 100%;
+}
 .task__card {
   cursor: pointer;
 }

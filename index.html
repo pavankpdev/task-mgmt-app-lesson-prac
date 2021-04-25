@@ -21,27 +21,27 @@
       rel="stylesheet"
     />
   </head>
-  <body>
+  <body onload="dddd()">
     <div class="add__new__btn__modile__only">
       <button
         class="btn btn-primary float-right"
         data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
+        data-bs-target="#addNewModal"
       >
         <i class="fas fa-plus mr-2"></i>Add new
       </button>
     </div>
     <div
       class="modal fade"
-      id="exampleModal"
+      id="addNewModal"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="addNewModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add New Task</h5>
+            <h5 class="modal-title" id="addNewModalLabel">Add New Task</h5>
             <button
               type="button"
               class="btn-close"
@@ -52,7 +52,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form>
+            <form onsubmit="return false">
               <div class="mb-3">
                 <label for="imageUrl" class="form-label">Image Url</label>
                 <input
@@ -83,7 +83,9 @@
                 />
               </div>
               <div class="mb-3">
-                <label for="taskDescription" class="form-label">Task Description</label>
+                <label for="taskDescription" class="form-label"
+                  >Task Description</label
+                >
                 <textarea
                   class="form-control"
                   id="taskDescription"
@@ -99,7 +101,12 @@
               >
                 Close
               </button>
-              <button type="submit" class="btn btn-primary">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                onclick="handlesubmit()"
+                data-bs-dismiss="modal"
+              >
                 Save changes
               </button>
             </form>
@@ -107,7 +114,41 @@
         </div>
       </div>
     </div>
-
+    <div
+      class="modal fade"
+      id="showTask"
+      tabindex="-1"
+      aria-labelledby="showTaskLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-body">
+            <img
+              src="https://images.unsplash.com/photo-1572214350916-571eac7bfced?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=755&q=80"
+              alt="place holder image"
+              class="img-fluid place__holder__image mb-3"
+            />
+            <strong class="text-sm text-muted">Created on 12</strong>
+            <h2 class="my-3">Learn DevOps</h2>
+            <p class="lead">
+              A paragraph is a series of related sentences developing a central
+              idea, called the topic. Try to think about paragraphs in terms of
+              thematic unity: a paragraph is a sentence or a group of sentences
+              that supports one central, unified idea. Paragraphs add one idea
+              at a time to your broader argument.
+            </p>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <h1 class="navbar-brand font-weight-700">
@@ -133,7 +174,7 @@
           <button
             class="btn btn-primary ml-auto"
             data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
+            data-bs-target="#addNewModal"
           >
             <i class="fas fa-plus mr-2"></i>Add new
           </button>
@@ -160,48 +201,10 @@
       </section>
 
       <section class="mt-4">
-        <div class="row">
-          <div class="col-md-6 col-lg-4 mt-3">
-            <div class="card shadow-sm task__card">
-              <div
-                class="card-header d-flex justify-content-end task__card__header"
-              >
-                <button type="button" class="btn btn-outline-info mr-2">
-                  <i class="fas fa-pencil-alt"></i>
-                </button>
-                <button type="button" class="btn btn-outline-danger">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-              </div>
-              <div class="card-body">
-                <h4 class="task__card__title">Learn DevOps</h4>
-                <p class="description trim-3-lines text-muted">
-                  Face with Tears of Joy is an emoji featuring a jovial face
-                  laughing, while also crying out tears. It can also be used for
-                  joking and teasing. It is the most commonly used emoji on
-                  social media websites such as Facebook, Snapchat, Twitter and
-                  Instagram. Wikipedia
-                </p>
-                <div class="tags text-white d-flex flex-wrap">
-                  <span class="badge bg-primary m-1">devops</span>
-                  <span class="badge bg-primary m-1">devops</span>
-                  <span class="badge bg-primary m-1">devops</span>
-                  <span class="badge bg-primary m-1">devops</span>
-                </div>
-              </div>
-              <div class="card-footer">
-                <button
-                  type="button"
-                  class="btn btn-outline-primary float-right"
-                >
-                  Open Task
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="row task__contents"></div>
       </section>
     </div>
+    <script src="./scripts/index.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
