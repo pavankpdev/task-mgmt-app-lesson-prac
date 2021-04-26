@@ -53,8 +53,8 @@ const htmlTaskContent = ({
 </div>`;
 
 const htmlModalContent = ({ id, title, description, url }) => {
-  const date = new Date(id);
-  return ` <div id=${id}>
+ const date = new Date(parseInt(id));
+ return ` <div id=${id}>
   <img
   src=${
     url ||
