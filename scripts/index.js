@@ -52,7 +52,7 @@ const htmlTaskContent = ({
 </div>
 </div>`;
 
-const htmlModalContent = ({ id, title, description, type, url }) => {
+const htmlModalContent = ({ id, title, description, url }) => {
   const date = new Date(id);
   return ` <div id=${id}>
   <img
@@ -188,4 +188,19 @@ const saveEdit = (e) => {
   submitButton.setAttribute("data-bs-toggle", "modal");
   submitButton.setAttribute("data-bs-target", "#showTask");
   submitButton.innerHTML = "Open Task";
+};
+
+const searchTask = (e) => {
+  if (!e) e = window.event;
+  while (taskContents.firstChild) {
+    taskContents.removeChild(taskContents.firstChild);
+  }
+
+  const resultData = state.taskList.filter(({ title }) =>
+    title.includes(e.target.value)
+  );
+
+  resultData.map((cardData) => {
+    taskContents.insertAdjacentHTML("beforeend", htmlTaskContent(cardData));
+  });
 };
