@@ -16,7 +16,7 @@ const htmlTaskContent = ({
   <div
     class="card-header d-flex justify-content-end task__card__header"
   >
-    <button type="button" class="btn btn-outline-info mr-2" id=${id}>
+    <button type="button" class="btn btn-outline-info mr-2" id=${id} onclick="editTask.apply(this, arguments)">
       <i class="fas fa-pencil-alt"></i>
     </button>
     <button type="button" class="btn btn-outline-danger" id=${id} onclick="deleteTask.apply(this, arguments)">
@@ -30,7 +30,7 @@ const htmlTaskContent = ({
   `
   }
     <h4 class="task__card__title">${title}</h4>
-    <p class="description trim-3-lines text-muted">
+    <p class="description trim-3-lines text-muted" data-gramm_editor="false">
      ${description}
     </p>
     <div class="tags text-white d-flex flex-wrap">
@@ -121,4 +121,71 @@ const deleteTask = (e) => {
   return e.target.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(
     e.target.parentNode.parentNode.parentNode.parentNode
   );
+};
+
+const editTask = (e) => {
+  if (!e) e = window.event;
+  const targetID = e.target.id;
+  const type = e.target.tagName;
+  let parentNode;
+  let taskTitle;
+  let taskDescription;
+  let taskType;
+  let submitButton;
+  if (type === "BUTTON") {
+    parentNode = e.target.parentNode.parentNode;
+  } else {
+    parentNode = e.target.parentNode.parentNode.parentNode;
+  }
+  taskTitle = parentNode.childNodes[3].childNodes[3];
+  taskDescription = parentNode.childNodes[3].childNodes[5];
+  submitButton = parentNode.childNodes[5].childNodes[1];
+  taskType = parentNode.childNodes[3].childNodes[7].childNodes[1];
+
+  taskTitle.setAttribute("contenteditable", "true");
+  taskDescription.setAttribute("contenteditable", "true");
+  taskType.setAttribute("contenteditable", "true");
+  submitButton.setAttribute("onclick", "saveEdit.apply(this, arguments)");
+  submitButton.setAttribute("onclick", "saveEdit.apply(this, arguments)");
+  submitButton.removeAttribute("data-bs-toggle");
+  submitButton.removeAttribute("data-bs-target");
+  submitButton.innerHTML = "Save Changes";
+};
+const saveEdit = (e) => {
+  if (!e) e = window.event;
+  const targetID = e.target.id;
+  const parentNode = e.target.parentNode.parentNode;
+  console.log(parentNode.childNodes);
+  const taskTitle = parentNode.childNodes[3].childNodes[3];
+  const taskDescription = parentNode.childNodes[3].childNodes[5];
+  const submitButton = parentNode.childNodes[5].childNodes[1];
+  const taskType = parentNode.childNodes[3].childNodes[7].childNodes[1];
+  const updateData = {
+    taskTitle: taskTitle.innerHTML,
+    taskDescription: taskDescription.innerHTML,
+    taskType: taskType.innerHTML,
+  };
+
+  let stateCopy = state.taskList;
+  stateCopy = stateCopy.map((task) =>
+    task.id === targetID
+      ? {
+          id: task.id,
+          title: updateData.taskTitle,
+          description: updateData.taskDescription,
+          type: updateData.taskType,
+          url: task.url,
+        }
+      : task
+  );
+
+  state.taskList = stateCopy;
+  updateLocalStorage();
+  taskTitle.setAttribute("contenteditable", "false");
+  taskDescription.setAttribute("contenteditable", "false");
+  taskType.setAttribute("contenteditable", "false");
+  submitButton.setAttribute("onclick", "openTask.apply(this, arguments)");
+  submitButton.setAttribute("data-bs-toggle", "modal");
+  submitButton.setAttribute("data-bs-target", "#showTask");
+  submitButton.innerHTML = "Open Task";
 };
