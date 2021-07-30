@@ -16,11 +16,11 @@ const htmlTaskContent = ({
   <div
     class="card-header d-flex justify-content-end task__card__header"
   >
-    <button type="button" class="btn btn-outline-info mr-2" id=${id} onclick="editTask.apply(this, arguments)">
-      <i class="fas fa-pencil-alt"></i>
+    <button type="button" class="btn btn-outline-info mr-2" name=${id} onclick="editTask.apply(this, arguments)">
+      <i class="fas fa-pencil-alt"name=${id}></i>
     </button>
-    <button type="button" class="btn btn-outline-danger" id=${id} onclick="deleteTask.apply(this, arguments)">
-      <i class="fas fa-trash-alt" id=${id}></i>
+    <button type="button" class="btn btn-outline-danger" name=${id} onclick="deleteTask.apply(this, arguments)">
+      <i class="fas fa-trash-alt" name=${id}></i>
     </button>
   </div>
   <div class="card-body">
@@ -53,8 +53,8 @@ const htmlTaskContent = ({
 </div>`;
 
 const htmlModalContent = ({ id, title, description, url }) => {
- const date = new Date(parseInt(id));
- return ` <div id=${id}>
+  const date = new Date(parseInt(id));
+  return ` <div id=${id}>
   <img
   src=${
     url ||
@@ -108,7 +108,7 @@ const openTask = (e) => {
 
 const deleteTask = (e) => {
   if (!e) e = window.event;
-  const targetID = e.target.id;
+  const targetID = e.target.getAttribute("name");
   const type = e.target.tagName;
   const removeTask = state.taskList.filter(({ id }) => id !== targetID);
   state.taskList = removeTask;
